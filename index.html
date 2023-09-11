@@ -5,15 +5,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/app.css">
     <title>Mexican Loteria</title>
 </head>
 
 <body>
     <h1>This is Loteria</h1>
-    <img id="active-card" src="" alt="">
-    <button id="next-btn">NEXT</button>
-    <button id="reshuffle">ReStart</button>
+    <div class="main-display">
+        <button class="history" id="h-previous" style="display:none">Previous</button>
+        <button id="h-next" style="display: none;">Next</button>
+        <img id="active-card" src="" alt="">
+        <button id="next-btn">NEXT</button>
+        <button id="reshuffle">ReStart</button>
+        <button id="historyBtn">History</button>
+        <button id="back-btn" style="display:none">Back</button>
+    </div>
 
+    <div class="container">
+        <div id="history-menu"></div>
+    </div>
+
+    <div class="container">
+        <div id="timer-menu"></div>
+    </div>
+
+    <div class="container">
+        <div id="reshuffle-menu"></div>
+    </div>
+
+    <div class="container">
+        <div id="options-menu"></div>
+    </div>
 
     <script src="./assets/app.js"></script>
 
