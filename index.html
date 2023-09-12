@@ -10,30 +10,37 @@
 </head>
 
 <body>
-    <h1>This is Loteria</h1>
+    <h1>Loteria</h1>
     <div class="main-display">
-        <button class="history" id="h-previous" style="display:none">Previous</button>
-        <button id="h-next" style="display: none;">Next</button>
         <img id="active-card" src="" alt="">
         <button id="next-btn">NEXT</button>
         <button id="reshuffle">ReStart</button>
-        <button id="historyBtn">History</button>
+        <button id="history-btn" onclick="displayMenu('history-menu')">History</button>
         <button id="back-btn" style="display:none">Back</button>
     </div>
 
-    <div class="container">
-        <div id="history-menu"></div>
+    <div class="container" style="display:none">
+        <div id="history-menu">
+            <div class="close-btn" onclick="closeMenu('history-menu')">
+                <button>Close</button>
+            </div>
+            <div>
+                <button id="history-prev-btn">Previous</button>
+                <img id="history-active-card" src="./assets/images/1.jpg" alt="">
+                <button id="history-next-btn">Next</button>
+            </div>
+        </div>
     </div>
 
-    <div class="container">
+    <div class="1container">
         <div id="timer-menu"></div>
     </div>
 
-    <div class="container">
+    <div class="1container">
         <div id="reshuffle-menu"></div>
     </div>
 
-    <div class="container">
+    <div class="1container">
         <div id="options-menu"></div>
     </div>
 

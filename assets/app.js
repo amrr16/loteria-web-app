@@ -2,6 +2,7 @@ class ListNode {
     constructor(data) {
         this.data = data;
         this.next = null;
+        this.pre = null;
     }
 }
 
@@ -14,8 +15,18 @@ class LinkedList {
 
     push(data) {
         let node = new ListNode(data);
-        node.next = this.head;
-        this.head = node;
+        if (this.head == null) {
+            node.next = this.head;
+            this.head = node;
+        }
+        else {
+            this.head.pre = node;
+            node.next = this.head;
+            this.head = node;
+        }
+
+
+
         this.length += 1;
         return this;
     }
@@ -95,9 +106,12 @@ let trav = null;
 let activeCard = document.querySelector("#active-card");
 let nextBtn = document.querySelector("#next-btn")
 let reshuffleBtn = document.querySelector("#reshuffle")
-let historyBtn = document.querySelector("#historyBtn")
-let hNextBtn = document.querySelector("#h-next")
-let hPrevBtn = document.querySelector("#h-previous")
+
+let historyBtn = document.querySelector("#history-btn")
+let historyCard = document.querySelector("#history-active-card")
+let hPrevBtn = document.querySelector("#history-prev-btn")
+let hNextBtn = document.querySelector("#history-next-btn")
+
 let backBtn = document.querySelector("#back-btn")
 
 
@@ -107,7 +121,7 @@ activeCard.setAttribute("src", `./assets/images/${deck.currentCard()}.jpg`)
 nextBtn.addEventListener("click", () => {
     deck.nextCard()
     if (deck.currentIndex < deck.length) {
-        console.log(list.push(deck.currentCard()))
+        list.push(deck.currentCard())
         activeCard.setAttribute("src", `./assets/images/${deck.currentCard()}.jpg`);
         // console.log(deck.currentIndex);
     }
@@ -118,46 +132,87 @@ nextBtn.addEventListener("click", () => {
 
 
 historyBtn.addEventListener("click", () => {
-
     // Get the value of the head of the list and assign it to trav
+
     trav = list.head;
-    toggleVisibility(historyBtn)
-    toggleVisibility(reshuffleBtn)
-    toggleVisibility(hNextBtn)
-    toggleVisibility(hPrevBtn)
-    toggleVisibility(backBtn)
-    toggleVisibility(nextBtn)
-    activeCard.setAttribute("src", `./assets/images/${trav.data}.jpg`)
+
+    historyCard.setAttribute("src", `./assets/images/${trav.data}.jpg`);
+    hNextBtn.style.display = "none";
+    if (list.length < 2) {
+        hPrevBtn.style.display = "none";
+    }
+    else {
+        hPrevBtn.style.display = "inline";
+    }
 
 });
 
 hNextBtn.addEventListener("click", () => {
+    console.log(trav);
+    if (trav.pre == null) {
+        hNextBtn.style.display = "none";
+    }
+    else if (trav.pre.next == null) {
+        hPrevBtn.style.display = "none";
 
+    }
+    else {
+        hPrevBtn.style.display = "inline";
+        trav = trav.pre;
+        historyCard.setAttribute("src", `./assets/images/${trav.data}.jpg`);
 
+    }
 });
+
 
 hPrevBtn.addEventListener("click", () => {
-
-    trav = trav.next
-    activeCard.setAttribute("src", `./assets/images/${trav.data}.jpg`)
+    console.log(trav);
+    if (trav.next == null) {
+        hPrevBtn.style.display = "none";
+    }
+    else if (trav.next.pre == null) {
+        hNextBtn.style.display = "none";
+    }
+    else {
+        hNextBtn.style.display = "inline";
+        trav = trav.next;
+        historyCard.setAttribute("src", `./assets/images/${trav.data}.jpg`);
+    }
 });
 
+
 backBtn.addEventListener("click", () => {
-    toggleVisibility(historyBtn)
-    toggleVisibility(reshuffleBtn)
-    toggleVisibility(hNextBtn)
-    toggleVisibility(hPrevBtn)
-    toggleVisibility(backBtn)
-    toggleVisibility(nextBtn)
+    toggleVisibility(historyBtn);
+    toggleVisibility(reshuffleBtn);
+    toggleVisibility(hNextBtn);
+    toggleVisibility(hPrevBtn);
+    toggleVisibility(backBtn);
+    toggleVisibility(nextBtn);
 })
 
 
-
 reshuffleBtn.addEventListener("click", () => {
-    list.clear()
-    deck.shuffleDeck()
-    list.push(deck.currentCard())
+    list.clear();
+    deck.shuffleDeck();
+    list.push(deck.currentCard());
     activeCard.setAttribute("src", `./assets/images/${deck.currentCard()}.jpg`);
 });
 
 
+function displayMenu(menuName) {
+    let container = document.querySelector(".container");
+    let menu = document.querySelector(`#${menuName}`);
+
+    menu.style.display = "block"
+    container.style.display = "block";
+
+}
+
+
+function closeMenu(menuName) {
+    let container = document.querySelector(".container");
+    let menu = document.querySelector(`#${menuName}`);
+
+    menu.style.display = "none";
+    container.style.display = "none";
+}

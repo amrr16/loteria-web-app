@@ -1,0 +1,14 @@
+.container {
+    width: 90%;
+    height: 80%;
+    background-color: black;
+    position: absolute;
+    top: 10%;
+    left: 5%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 4%;
+    right: 4%;
+}
