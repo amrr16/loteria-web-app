@@ -164,7 +164,7 @@ hPrevBtn.addEventListener("click", () => {
         trav = trav.next;
         historyCard.setAttribute("src", `./assets/images/${trav.data}.jpg`);
     }
-    if (trav.next.next == null) {
+    if (trav.next == null) {
         hPrevBtn.style.display = "none";
     }
 });
