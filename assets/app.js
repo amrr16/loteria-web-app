@@ -117,8 +117,6 @@ let historyCard = document.querySelector("#history-active-card")
 let hPrevBtn = document.querySelector("#history-prev-btn")
 let hNextBtn = document.querySelector("#history-next-btn")
 
-let backBtn = document.querySelector("#back-btn")
-
 let container = document.querySelector(".container");
 
 activeCard.setAttribute("src", `./assets/images/${deck.currentCard()}.jpg`)
@@ -184,16 +182,6 @@ hPrevBtn.addEventListener("click", () => {
         hPrevBtn.style.display = "none";
     }
 });
-
-
-backBtn.addEventListener("click", () => {
-    toggleVisibility(historyBtn);
-    toggleVisibility(reshuffleBtn);
-    toggleVisibility(hNextBtn);
-    toggleVisibility(hPrevBtn);
-    toggleVisibility(backBtn);
-    toggleVisibility(nextBtn);
-})
 
 
 reshuffleBtn.addEventListener("click", () => {
