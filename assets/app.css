@@ -1,11 +1,25 @@
 .container {
     width: 90%;
     height: 80%;
-    background-color: black;
+    background-color: #89CFF0;
     position: absolute;
     top: 10%;
     left: 5%;
 }
+
+#alert-container {
+    width: 50%;
+    height: 30%;
+    background-color: violet;
+    position: absolute;
+    top: 35%;
+    left: 25%;
+}
+
+.menu {
+    display: none;
+}
+
 
 .close-btn {
     position: absolute;

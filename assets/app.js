@@ -1,3 +1,4 @@
+// Node Class
 class ListNode {
     constructor(data) {
         this.data = data;
@@ -6,7 +7,7 @@ class ListNode {
     }
 }
 
-
+// LinkedList Class
 class LinkedList {
     constructor(head = null) {
         this.head = head;
@@ -46,7 +47,7 @@ class LinkedList {
 
 }
 
-
+// CardDeck Class 
 class CardDeck {
     constructor() {
         this.length = 54;
@@ -79,35 +80,6 @@ class CardDeck {
 
 }
 
-
-function toggleVisibility(element) {
-
-    if (element.style.display == "none") {
-        element.style.display = "inline"
-    }
-    else {
-        element.style.display = "none"
-    }
-}
-
-// Initialize a new deck of cards
-const deck = new CardDeck();
-
-// Initialize a new list to store cards previously shown
-const list = new LinkedList();
-
-
-// Shuffle the deck at the start
-deck.shuffleDeck()
-
-// Add the first card to the list
-list.push(deck.currentCard())
-
-// Set a trav variable to null; Keeps track of current location as we browse the linked list.
-let trav = null;
-
-
-
 let activeCard = document.querySelector("#active-card");
 let nextBtn = document.querySelector("#next-btn")
 let reshuffleBtn = document.querySelector("#reshuffle")
@@ -119,8 +91,21 @@ let hNextBtn = document.querySelector("#history-next-btn")
 
 let container = document.querySelector(".container");
 
-activeCard.setAttribute("src", `./assets/images/${deck.currentCard()}.jpg`)
+let alertContainer = document.querySelector("#alert-container")
 
+// Initialize a new deck of cards
+const deck = new CardDeck();
+
+// Initialize a new list to store cards previously shown
+const list = new LinkedList();
+
+// Set a trav variable to null; Keeps track of current location as we browse the linked list.
+let trav = null;
+
+// Starts the game
+startGame();
+
+//  Displays the next card in the deck
 nextBtn.addEventListener("click", () => {
     deck.nextCard()
     if (deck.currentIndex < deck.length) {
@@ -133,7 +118,7 @@ nextBtn.addEventListener("click", () => {
     }
 });
 
-
+// Displays the history menu
 historyBtn.addEventListener("click", () => {
     // Get the value of the head of the list and assign it to trav
 
@@ -150,6 +135,7 @@ historyBtn.addEventListener("click", () => {
 
 });
 
+// Gives functionality to the next button in the history menu
 hNextBtn.addEventListener("click", () => {
     console.log(trav);
     if (trav.pre.next == null) {
@@ -167,7 +153,7 @@ hNextBtn.addEventListener("click", () => {
     }
 });
 
-
+// Gives functionality to the previous button in the history menu
 hPrevBtn.addEventListener("click", () => {
     console.log(trav);
     if (trav.next.pre == null) {
@@ -184,26 +170,56 @@ hPrevBtn.addEventListener("click", () => {
 });
 
 
-reshuffleBtn.addEventListener("click", () => {
-    list.clear();
-    deck.shuffleDeck();
-    list.push(deck.currentCard());
-    activeCard.setAttribute("src", `./assets/images/${deck.currentCard()}.jpg`);
-});
+// Starts a new game
+function startGame() {
+    // Shuffle the deck at the start
+    deck.shuffleDeck()
 
+    // Add the first card to the list
+    list.push(deck.currentCard())
 
+    // Display the first card on the deck
+    activeCard.setAttribute("src", `./assets/images/${deck.currentCard()}.jpg`)
+}
+
+// Toggles visibility of an element
+function toggleVisibility(element) {
+
+    if (element.style.display == "none") {
+        element.style.display = "inline"
+    }
+    else {
+        element.style.display = "none"
+    }
+}
+
+// Displays a specific menu
 function displayMenu(menuName) {
     let menu = document.querySelector(`#${menuName}`);
 
     menu.style.display = "block"
     container.style.display = "block";
-
 }
 
 
+// Closes the menu
 function closeMenu(menuName) {
     let menu = document.querySelector(`#${menuName}`);
 
     menu.style.display = "none";
     container.style.display = "none";
+}
+
+function displayAlert() {
+    alertContainer.style.display = "block";
+}
+
+function closeAlert() {
+    alertContainer.style.display = "none";
+}
+
+function reshuffle() {
+    list.clear();
+    startGame();
+    closeAlert()
 }
