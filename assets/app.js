@@ -37,6 +37,7 @@ class LinkedList {
 
     clear() {
         this.head = null;
+        this.length = 0;
     }
 
     getFirst() {
@@ -89,15 +90,19 @@ function toggleVisibility(element) {
     }
 }
 
-
+// Initialize a new deck of cards
 const deck = new CardDeck();
+
+// Initialize a new list to store cards previously shown
 const list = new LinkedList();
 
 
 // Shuffle the deck at the start
 deck.shuffleDeck()
+
 // Add the first card to the list
 list.push(deck.currentCard())
+
 // Set a trav variable to null; Keeps track of current location as we browse the linked list.
 let trav = null;
 
@@ -114,7 +119,7 @@ let hNextBtn = document.querySelector("#history-next-btn")
 
 let backBtn = document.querySelector("#back-btn")
 
-
+let container = document.querySelector(".container");
 
 activeCard.setAttribute("src", `./assets/images/${deck.currentCard()}.jpg`)
 
@@ -149,10 +154,7 @@ historyBtn.addEventListener("click", () => {
 
 hNextBtn.addEventListener("click", () => {
     console.log(trav);
-    if (trav.pre == null) {
-        hNextBtn.style.display = "none";
-    }
-    else if (trav.pre.next == null) {
+    if (trav.pre.next == null) {
         hPrevBtn.style.display = "none";
 
     }
@@ -162,21 +164,24 @@ hNextBtn.addEventListener("click", () => {
         historyCard.setAttribute("src", `./assets/images/${trav.data}.jpg`);
 
     }
+    if (trav.pre == null) {
+        hNextBtn.style.display = "none";
+    }
 });
 
 
 hPrevBtn.addEventListener("click", () => {
     console.log(trav);
-    if (trav.next == null) {
-        hPrevBtn.style.display = "none";
-    }
-    else if (trav.next.pre == null) {
+    if (trav.next.pre == null) {
         hNextBtn.style.display = "none";
     }
     else {
         hNextBtn.style.display = "inline";
         trav = trav.next;
         historyCard.setAttribute("src", `./assets/images/${trav.data}.jpg`);
+    }
+    if (trav.next.next == null) {
+        hPrevBtn.style.display = "none";
     }
 });
 
@@ -200,7 +205,6 @@ reshuffleBtn.addEventListener("click", () => {
 
 
 function displayMenu(menuName) {
-    let container = document.querySelector(".container");
     let menu = document.querySelector(`#${menuName}`);
 
     menu.style.display = "block"
@@ -210,7 +214,6 @@ function displayMenu(menuName) {
 
 
 function closeMenu(menuName) {
-    let container = document.querySelector(".container");
     let menu = document.querySelector(`#${menuName}`);
 
     menu.style.display = "none";
