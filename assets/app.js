@@ -89,7 +89,9 @@ let historyCard = document.querySelector("#history-active-card")
 let hPrevBtn = document.querySelector("#history-prev-btn")
 let hNextBtn = document.querySelector("#history-next-btn")
 
-let container = document.querySelector(".container");
+let focus = document.querySelector("#focus");
+
+let container = document.querySelector("#container");
 
 let alertContainer = document.querySelector("#alert-container")
 
@@ -104,6 +106,9 @@ let trav = null;
 
 // Starts the game
 startGame();
+
+// Keeps tracks of the current menu in display 
+currentMenu = "";
 
 //  Displays the next card in the deck
 nextBtn.addEventListener("click", () => {
@@ -124,6 +129,7 @@ historyBtn.addEventListener("click", () => {
 
     trav = list.head;
 
+    // Get the current card at the start of the history list and display it.
     historyCard.setAttribute("src", `./assets/images/${trav.data}.jpg`);
     hNextBtn.style.display = "none";
     if (list.length < 2) {
@@ -137,7 +143,7 @@ historyBtn.addEventListener("click", () => {
 
 // Gives functionality to the next button in the history menu
 hNextBtn.addEventListener("click", () => {
-    console.log(trav);
+
     if (trav.pre.next == null) {
         hPrevBtn.style.display = "none";
 
@@ -155,7 +161,7 @@ hNextBtn.addEventListener("click", () => {
 
 // Gives functionality to the previous button in the history menu
 hPrevBtn.addEventListener("click", () => {
-    console.log(trav);
+
     if (trav.next.pre == null) {
         hNextBtn.style.display = "none";
     }
@@ -175,51 +181,71 @@ function startGame() {
     // Shuffle the deck at the start
     deck.shuffleDeck()
 
-    // Add the first card to the list
+    // Add the first card to the history list
     list.push(deck.currentCard())
 
     // Display the first card on the deck
     activeCard.setAttribute("src", `./assets/images/${deck.currentCard()}.jpg`)
 }
 
-// Toggles visibility of an element
-function toggleVisibility(element) {
 
-    if (element.style.display == "none") {
-        element.style.display = "inline"
+focus.addEventListener("click", (event) => {
+
+    if (alertContainer.style.display == "block") {
+        toggleVisibility([alertContainer, focus])
     }
-    else {
-        element.style.display = "none"
+    else if (container.style.display == "block") {
+        let menu = document.querySelector(`#${currentMenu}`)
+        toggleVisibility([menu, container, focus])
     }
-}
+
+
+});
+
 
 // Displays a specific menu
 function displayMenu(menuName) {
-    let menu = document.querySelector(`#${menuName}`);
 
-    menu.style.display = "block"
-    container.style.display = "block";
+    let menu = document.querySelector(`#${menuName}`);
+    currentMenu = menuName;
+
+    toggleVisibility([menu, container, focus])
 }
 
 
 // Closes the menu
 function closeMenu(menuName) {
+
     let menu = document.querySelector(`#${menuName}`);
+    currentMenu = "none"
 
-    menu.style.display = "none";
-    container.style.display = "none";
+    toggleVisibility([menu, container, focus])
+
 }
 
-function displayAlert() {
-    alertContainer.style.display = "block";
+
+function toggleShuffleAlert() {
+
+    toggleVisibility([alertContainer, focus])
+
 }
 
-function closeAlert() {
-    alertContainer.style.display = "none";
-}
 
 function reshuffle() {
     list.clear();
     startGame();
-    closeAlert()
+    toggleShuffleAlert()
+}
+
+
+
+function toggleVisibility(elements, display = "block") {
+    for (element of elements) {
+        if (element.style.display == display) {
+            element.style.display = "none";
+        }
+        else {
+            element.style.display = display;
+        }
+    }
 }

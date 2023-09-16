@@ -14,14 +14,15 @@
     <div class="main-display">
         <img id="active-card" src="" alt="">
         <button id="next-btn">NEXT</button>
-        <button id="reshuffle" onclick="displayAlert()">ReShuffle</button>
+        <button id="reshuffle" onclick="toggleShuffleAlert()">ReShuffle</button>
         <button id="history-btn" onclick="displayMenu('history-menu')">History</button>
         <button id="options-btn" onclick="displayMenu('options-menu')">Options</button>
         <button id="back-btn" style="display:none">Back</button>
     </div>
 
-    <div class="container" style="display:none">
+    <div id="focus"></div>
 
+    <div id="container">
 
         <div id="history-menu" class="menu">
             <div class="close-btn" onclick="closeMenu('history-menu')">
@@ -47,13 +48,13 @@
 
     </div>
 
-    <div id="alert-container" style="display:none">
+    <div id="alert-container">
 
         <div id="timer-alert-menu">
             <h2>reshuffle</h2>
             <p>Do you want to reshuffle the deck?</p>
             <div>
-                <button onclick="closeAlert()">No</button>
+                <button onclick="toggleShuffleAlert()">No</button>
                 <button onclick="reshuffle()">Yes</button>
             </div>
         </div>
