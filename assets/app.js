@@ -16,7 +16,7 @@ class LinkedList {
 
     push(data) {
         let node = new ListNode(data);
-        if (this.head == null) {
+        if (this.head === null) {
             node.next = this.head;
             this.head = node;
         }
@@ -95,6 +95,12 @@ let container = document.querySelector("#container");
 
 let alertContainer = document.querySelector("#alert-container")
 
+let startBtn = document.querySelector("#start-btn")
+
+let progressBar = document.querySelector("#progressbar");
+let progressBarInner = document.querySelector("#inner")
+
+
 // Initialize a new deck of cards
 const deck = new CardDeck();
 
@@ -110,8 +116,16 @@ startGame();
 // Keeps tracks of the current menu in display 
 currentMenu = "";
 
+barState = "paused"
+
 //  Displays the next card in the deck
 nextBtn.addEventListener("click", () => {
+    displayNext();
+    createProgressBar("2s");
+});
+
+// Display 
+function displayNext() {
     deck.nextCard()
     if (deck.currentIndex < deck.length) {
         list.push(deck.currentCard())
@@ -121,7 +135,7 @@ nextBtn.addEventListener("click", () => {
     else {
         console.log("End of the Deck");
     }
-});
+}
 
 // Displays the history menu
 historyBtn.addEventListener("click", () => {
@@ -144,7 +158,7 @@ historyBtn.addEventListener("click", () => {
 // Gives functionality to the next button in the history menu
 hNextBtn.addEventListener("click", () => {
 
-    if (trav.pre.next == null) {
+    if (trav.pre.next === null) {
         hPrevBtn.style.display = "none";
 
     }
@@ -154,7 +168,7 @@ hNextBtn.addEventListener("click", () => {
         historyCard.setAttribute("src", `./assets/images/${trav.data}.jpg`);
 
     }
-    if (trav.pre == null) {
+    if (trav.pre === null) {
         hNextBtn.style.display = "none";
     }
 });
@@ -162,7 +176,7 @@ hNextBtn.addEventListener("click", () => {
 // Gives functionality to the previous button in the history menu
 hPrevBtn.addEventListener("click", () => {
 
-    if (trav.next.pre == null) {
+    if (trav.next.pre === null) {
         hNextBtn.style.display = "none";
     }
     else {
@@ -170,7 +184,7 @@ hPrevBtn.addEventListener("click", () => {
         trav = trav.next;
         historyCard.setAttribute("src", `./assets/images/${trav.data}.jpg`);
     }
-    if (trav.next == null) {
+    if (trav.next === null) {
         hPrevBtn.style.display = "none";
     }
 });
@@ -188,17 +202,15 @@ function startGame() {
     activeCard.setAttribute("src", `./assets/images/${deck.currentCard()}.jpg`)
 }
 
+// Adds an click event that closes the current menu if clicked on
+focus.addEventListener("click", () => {
 
-focus.addEventListener("click", (event) => {
-
-    if (alertContainer.style.display == "block") {
-        toggleVisibility([alertContainer, focus])
+    if (alertContainer.style.display === "block") {
+        closeShuffleAlert();
     }
-    else if (container.style.display == "block") {
-        let menu = document.querySelector(`#${currentMenu}`)
-        toggleVisibility([menu, container, focus])
+    else if (container.style.display === "block") {
+        closeMenu(currentMenu);
     }
-
 
 });
 
@@ -208,40 +220,48 @@ function displayMenu(menuName) {
 
     let menu = document.querySelector(`#${menuName}`);
     currentMenu = menuName;
-
     toggleVisibility([menu, container, focus])
+    barAnimation(false)
 }
 
 
-// Closes the menu
+// Closes a specific menu
 function closeMenu(menuName) {
 
     let menu = document.querySelector(`#${menuName}`);
     currentMenu = "none"
-
     toggleVisibility([menu, container, focus])
+    barState = "running"
+    barAnimation(true)
 
 }
 
-
-function toggleShuffleAlert() {
+// Displays the reshuffle alert
+function displayShuffleAlert() {
 
     toggleVisibility([alertContainer, focus])
+    barAnimation(false)
 
 }
 
+// Closes the reshuffle alert
+function closeShuffleAlert() {
+    toggleVisibility([alertContainer, focus])
+    barState = "running"
+    barAnimation(true)
+}
 
+// Reshuffles the deck and starts a new game
 function reshuffle() {
     list.clear();
     startGame();
-    toggleShuffleAlert()
+    closeShuffleAlert()
 }
 
-
-
+// Toggle visibility of an array of element(s)
 function toggleVisibility(elements, display = "block") {
     for (element of elements) {
-        if (element.style.display == display) {
+        if (element.style.display === display) {
             element.style.display = "none";
         }
         else {
@@ -249,3 +269,53 @@ function toggleVisibility(elements, display = "block") {
         }
     }
 }
+
+// Pauses and Unpauses the progress bar
+function barAnimation(bool) {
+    if (bool === true && barState === "running") {
+        progressBarInner.style.animationPlayState = "running";
+        barState = "running";
+    }
+    else {
+        progressBarInner.style.animationPlayState = "paused";
+        barState = "paused";
+    }
+}
+
+// Creates a progress bar
+function createProgressBar(duration) {
+
+    progressBarInner.style.animationDuration = duration;
+
+    progressBar.appendChild(progressBarInner);
+
+    progressBarInner.style.animationPlayState = "running";
+
+
+}
+
+startBtn.addEventListener("click", function () {
+    createProgressBar("2s");
+});
+
+progressBarInner.addEventListener("animationend", () => {
+    console.log("end of animation")
+    displayNext();
+    createProgressBar("2s");
+
+
+})
+
+activeCard.addEventListener("click", () => {
+
+    if (barState === "paused") {
+        barState = "running"
+        barAnimation(true);
+
+    }
+    else {
+        console.log("paused");
+        barAnimation(false);
+
+    }
+});

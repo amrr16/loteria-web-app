@@ -12,12 +12,18 @@
 <body>
     <h1>Loteria</h1>
     <div class="main-display">
-        <img id="active-card" src="" alt="">
+        <img id="active-card" src=".assets/images/0.jpg" alt="">
+
+    </div>
+    <div>
         <button id="next-btn">NEXT</button>
-        <button id="reshuffle" onclick="toggleShuffleAlert()">ReShuffle</button>
+        <button id="reshuffle" onclick="displayShuffleAlert()">ReShuffle</button>
         <button id="history-btn" onclick="displayMenu('history-menu')">History</button>
         <button id="options-btn" onclick="displayMenu('options-menu')">Options</button>
-        <button id="back-btn" style="display:none">Back</button>
+        <button id="start-btn">Start</button>
+    </div>
+    <div id="progressbar">
+        <div id="inner"></div>
     </div>
 
     <div id="focus"></div>
@@ -54,7 +60,7 @@
             <h2>reshuffle</h2>
             <p>Do you want to reshuffle the deck?</p>
             <div>
-                <button onclick="toggleShuffleAlert()">No</button>
+                <button onclick="closeShuffleAlert()">No</button>
                 <button onclick="reshuffle()">Yes</button>
             </div>
         </div>
