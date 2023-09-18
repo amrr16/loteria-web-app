@@ -12,14 +12,14 @@
 <body>
     <h1>Loteria</h1>
     <div class="main-display">
-        <img id="active-card" src=".assets/images/0.jpg" alt="">
+        <img id="active-card" src="./assets/images/0.jpg" alt="">
 
     </div>
     <div>
         <button id="next-btn">NEXT</button>
-        <button id="reshuffle" onclick="displayShuffleAlert()">ReShuffle</button>
-        <button id="history-btn" onclick="displayMenu('history-menu')">History</button>
-        <button id="options-btn" onclick="displayMenu('options-menu')">Options</button>
+        <button id="reshuffle" onclick="displayShuffleAlert()">Shuffle</button>
+        <button id="history-btn" onclick="displayHistoryMenu()">History</button>
+        <button id="options-btn" onclick="displayOptionsMenu()">Options</button>
         <button id="start-btn">Start</button>
     </div>
     <div id="progressbar">
@@ -28,36 +28,37 @@
 
     <div id="focus"></div>
 
-    <div id="container">
-
+    <div id="history-container">
         <div id="history-menu" class="menu">
-            <div class="close-btn" onclick="closeMenu('history-menu')">
+            <div class="close-btn" onclick="closeHistoryMenu()">
                 <button>Close</button>
             </div>
             <div>
                 <h2>History</h2>
                 <button id="history-prev-btn">Previous</button>
-                <img id="history-active-card" src="./assets/images/1.jpg" alt="">
+                <img id="history-active-card" src="" alt="">
                 <button id="history-next-btn">Next</button>
             </div>
         </div>
+    </div>
 
 
+    <div id="options-container">
         <div id="options-menu" class="menu">
-            <div class="close-btn" onclick="closeMenu('options-menu')">
+            <div class="close-btn" onclick="closeOptionsMenu()">
                 <button>Close</button>
             </div>
             <div>
                 <h2>Options</h2>
             </div>
         </div>
-
     </div>
+
 
     <div id="alert-container">
 
         <div id="timer-alert-menu">
-            <h2>reshuffle</h2>
+            <h2>Shuffle</h2>
             <p>Do you want to reshuffle the deck?</p>
             <div>
                 <button onclick="closeShuffleAlert()">No</button>

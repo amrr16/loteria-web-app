@@ -91,7 +91,11 @@ let hNextBtn = document.querySelector("#history-next-btn")
 
 let focus = document.querySelector("#focus");
 
-let container = document.querySelector("#container");
+let historyContainer = document.querySelector("#history-container");
+let historyMenu = document.querySelector("#history-menu");
+
+let optionsContainer = document.querySelector("#options-container");
+let optionsMenu = document.querySelector("#options-menu")
 
 let alertContainer = document.querySelector("#alert-container")
 
@@ -110,18 +114,29 @@ const list = new LinkedList();
 // Set a trav variable to null; Keeps track of current location as we browse the linked list.
 let trav = null;
 
-// Starts the game
-startGame();
+let gameInProgress = false;
 
 // Keeps tracks of the current menu in display 
 currentMenu = "";
 
 barState = "paused"
 
+startBtn.addEventListener("click", function () {
+    // Starts the game
+    startGame();
+    gameInProgress = true;
+    createProgressBar("2s");
+    startBtn.style.display = "none";
+});
+
+
 //  Displays the next card in the deck
 nextBtn.addEventListener("click", () => {
-    displayNext();
-    createProgressBar("2s");
+    if (gameInProgress === true) {
+        console.log(gameInProgress)
+        displayNext();
+        createProgressBar("2s");
+    }
 });
 
 // Display 
@@ -152,6 +167,7 @@ historyBtn.addEventListener("click", () => {
     else {
         hPrevBtn.style.display = "inline";
     }
+
 
 });
 
@@ -208,33 +224,53 @@ focus.addEventListener("click", () => {
     if (alertContainer.style.display === "block") {
         closeShuffleAlert();
     }
-    else if (container.style.display === "block") {
-        closeMenu(currentMenu);
+    else if (optionsContainer.style.display === "block") {
+        closeOptionsMenu();
+    }
+    else if (historyContainer.style.display === "block") {
+        closeHistoryMenu();
     }
 
 });
 
 
 // Displays a specific menu
-function displayMenu(menuName) {
+function displayHistoryMenu() {
 
-    let menu = document.querySelector(`#${menuName}`);
-    currentMenu = menuName;
-    toggleVisibility([menu, container, focus])
+    toggleVisibility([historyMenu, historyContainer, focus])
     barAnimation(false)
+
 }
 
 
 // Closes a specific menu
-function closeMenu(menuName) {
+function closeHistoryMenu() {
 
-    let menu = document.querySelector(`#${menuName}`);
-    currentMenu = "none"
-    toggleVisibility([menu, container, focus])
+    toggleVisibility([historyMenu, historyContainer, focus])
     barState = "running"
     barAnimation(true)
 
 }
+
+
+// Displays a specific menu
+function displayOptionsMenu() {
+
+    toggleVisibility([optionsMenu, optionsContainer, focus])
+    barAnimation(false)
+
+}
+
+
+// Closes a specific menu
+function closeOptionsMenu() {
+
+    toggleVisibility([optionsMenu, optionsContainer, focus])
+    barState = "running"
+    barAnimation(true)
+
+}
+
 
 // Displays the reshuffle alert
 function displayShuffleAlert() {
@@ -248,13 +284,17 @@ function displayShuffleAlert() {
 function closeShuffleAlert() {
     toggleVisibility([alertContainer, focus])
     barState = "running"
-    barAnimation(true)
+
+    if (gameInProgress) barAnimation(true);
 }
 
 // Reshuffles the deck and starts a new game
 function reshuffle() {
-    list.clear();
-    startGame();
+    if (gameInProgress) {
+        list.clear();
+        startGame();
+        createProgressBar("2s");
+    }
     closeShuffleAlert()
 }
 
@@ -294,9 +334,6 @@ function createProgressBar(duration) {
 
 }
 
-startBtn.addEventListener("click", function () {
-    createProgressBar("2s");
-});
 
 progressBarInner.addEventListener("animationend", () => {
     console.log("end of animation")
@@ -307,15 +344,19 @@ progressBarInner.addEventListener("animationend", () => {
 })
 
 activeCard.addEventListener("click", () => {
+    if (gameInProgress === true) {
 
-    if (barState === "paused") {
-        barState = "running"
-        barAnimation(true);
 
+        if (barState === "paused") {
+            barState = "running"
+            barAnimation(true);
+
+        }
+        else {
+            console.log("paused");
+            barAnimation(false);
+
+        }
     }
-    else {
-        console.log("paused");
-        barAnimation(false);
 
-    }
 });

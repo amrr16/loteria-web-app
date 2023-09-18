@@ -1,4 +1,14 @@
-#container {
+#history-container {
+    display: none;
+    width: 90%;
+    height: 80%;
+    background-color: #89CFF0;
+    position: absolute;
+    top: 10%;
+    left: 5%;
+}
+
+#options-container {
     display: none;
     width: 90%;
     height: 80%;
@@ -40,8 +50,8 @@
 }
 
 #progressbar {
-    width: 80%;
-    margin: 25px auto;
+    width: 26%;
+    margin: 25px 0;
     border: solid 1px black;
 }
 
